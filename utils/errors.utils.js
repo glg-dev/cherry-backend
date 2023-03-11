@@ -1,0 +1,29 @@
+module.exports.signUpErrors = (err) => {
+  let errors = { pseudo: "", email: "", password: "" };
+  if (err.message.includes("pseudo"))
+    errors.pseudo = "Pseudo incorrect ou déjà pris";
+  if (err.message.includes("email")) errors.email = "Email incorrect";
+  if (err.message.includes("password"))
+    errors.password = "Le mot de passe doit contenir au moins 6 caractères";
+  if (err.code === 11000) {
+    if (Object.keys(err.keyValue)[0].includes("pseudo"))
+      errors.pseudo = "Ce pseudo est déjà pris";
+    if (Object.keys(err.keyValue)[0].includes("email"))
+      errors.email = "Cet email est déjà enregistré";
+  }
+  return errors;
+};
+module.exports.signInErrors = (err) => {
+  let errors = { email: "", password: "" };
+  if (err.message.includes("email")) errors.email = "Email incorrect";
+  if (err.message.includes("password"))
+    errors.password = "Mot de passe incorrect";
+  return errors;
+};
+
+module.exports.uploadErrors = (err) => {
+  let errors = { format: "", maxSize: "" };
+  if (err.message.includes("format")) errors.format = "Format invalide";
+  if (err.message.includes("size")) errors.maxSize = "Le fichier dépasse 500Ko";
+  return errors;
+};
